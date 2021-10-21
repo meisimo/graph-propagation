@@ -1,7 +1,9 @@
 import numpy as np
 
 from abc    import ABC, abstractmethod
-from typing import Dict, List
+from typing import List
+
+from src.result_processing import Results
 
 class PropagationState(ABC):
     def __init__(self, nodes:List[str]):
@@ -15,8 +17,9 @@ class PropagationState(ABC):
     def init(self):
         self._nodes_state = [0] * len(self._nodes)
 
-    def result(self) -> Dict[str, int]:
-        return {self._nodes[i]: self._nodes_state[i] for i in range(len(self._nodes))}
+    def result(self) -> Results:
+        result_dict = {self._nodes[i]: self._nodes_state[i] for i in range(len(self._nodes))}
+        return Results(result_dict)
 
 class NodesInKnowledgePropagation(PropagationState):
     def update(self, graph_state:List[List[int]], node_i:int):
